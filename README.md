@@ -132,13 +132,7 @@ python insights_data.py
 
 Group 22
 
--Vinzenz Jakob Benedikt Franke\
+-Anne Laure Olga Tettoni\
 -Julio Cesar Perez Duran\
--Ruihan Zhang
 
-## Contact
 
-The team is available by the following emails:
-
-Anne Laure Olga Tettoni: <email>
-Julio Cesar Perez Duran: julio.cesar.perez.duran@campus.tu-berlin.de\
