@@ -133,6 +133,6 @@ python insights_data.py
 Group 22
 
 -Anne Laure Olga Tettoni\
--Julio Cesar Perez Duran\
+-Julio Cesar Perez Duran
 
 
