@@ -129,7 +129,7 @@ plt.title("Comparison of length between spam and non spam emails")
 ax.get_xaxis().tick_bottom()
 ax.get_yaxis().tick_left()
 plt.xticks(np.arange(0, max(list_of_lengths_all)+1, 3000))
-     
+plt.xlabel("Number of characters in email")
 # show plot
 plt.savefig("Comparison_length_types_emails.png")
 
