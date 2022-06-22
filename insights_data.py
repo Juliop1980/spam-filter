@@ -6,8 +6,14 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
 import collections
-#plt.use('TkAgg')
+import nltk
+nltk.download('stopwords')
+from nltk.corpus import stopwords
+import string
+from collections import Counter
 
+def split(word):
+    return [char for char in word]
 
 #list_of_lengths_all = []
 list_of_lengths_of_spam_mail = []
@@ -27,57 +33,39 @@ list_of_words_of_no_spam= []
 #data_set_frame= data_set_frame.reset_index()
 for index, row in data_frame_for_spam.iterrows():
     #print(row)
-    text = row['text']
-    list_of_words_of_spam+=text.split(" ")
+    text = row['text'].lower()
+    #aux_text_no_thrash =  text.split(" ")
+    aux_text_no_thrash = [i for i in text.split(" ") if i not in (["Subject:","'",'"',"_","/","-",""]+stopwords.words('english')+split(string.punctuation))]
+    list_of_words_of_spam+=aux_text_no_thrash
     
     
     #print(text)
     #print("-------------------------------------------------------------------------------")
-    list_of_lengths_of_spam_mail.append(len(text))
+    list_of_lengths_of_spam_mail.append(len(aux_text_no_thrash))
     
-    #if (len(text)) <30:
-    #    print(text)
-   
-#print(df.to_string()) 
 
 for index, row in data_frame_for_no_spam.iterrows():
     #print(row)
-    text = row['text']
-    list_of_words_of_no_spam+=text.split(" ")
+    text = row['text'].lower()
+    #print(" Im here")
+    #aux_text_no_thrash =  text.split(" ")
+    aux_text_no_thrash = [i for i in text.split(" ") if i not in (["Subject:","'",'"',"_","/","-",""]+stopwords.words('english')+split(string.punctuation))]
+
+    #list_of_words_of_spam+=aux_text_no_thrash
+    list_of_words_of_no_spam+=aux_text_no_thrash
     
     #print(text)
     #print("-------------------------------------------------------------------------------")
-    list_of_lenghts_of_no_spam_mail.append(len(text))
+    list_of_lenghts_of_no_spam_mail.append(len(aux_text_no_thrash))
 
+#print("past the loop Im here")
 list_of_all_words = list_of_words_of_spam + list_of_words_of_no_spam
 list_of_lengths_all = list_of_lengths_of_spam_mail + list_of_lenghts_of_no_spam_mail
-#print(list_of_words_of_spam)
-#print(list_of_words_of_no_spam)
-
-    #print(words_in_text)
-
-#print(list_of_lengths_of_spam_mail)
-#print(list_of_lenghts_of_no_spam_mail)
-
-#print(list_of_lengths_of_spam_mail)
-#print(max(list_of_lengths_of_spam_mail))
-#print(min(list_of_lengths_of_spam_mail))
-
-#plt.plot(list_of_lengths_of_spam_mail)
-#plt.hist(list_of_lengths_of_spam_mail, color = 'blue', edgecolor = 'black', bins = 20)
-#plt.show()
-""""
-data = [list_of_lengths_of_spam_mail, list_of_lenghts_of_no_spam_mail]
-plt.boxplot(data)
-plt.yticks(np.arange(0, max(list_of_lengths_all)+1, 1800))
-plt.title("Comparison of length between spam and nonspam emails")
-plt.set_yticklabels(['Spam Emails', 'Non Spam Emails'])
-plt.savefig("matplotlib.png") 
-"""
 
 
 # Creating dataset
-np.random.seed(10)
+#print("Im here")
+
 data_1 = list_of_lengths_of_spam_mail
 data_2 = list_of_lenghts_of_no_spam_mail
 
@@ -130,19 +118,17 @@ plt.title("Comparison of length between spam and non spam emails")
 # ticks
 ax.get_xaxis().tick_bottom()
 ax.get_yaxis().tick_left()
-plt.xticks(np.arange(0, max(list_of_lengths_all)+1, 3000))
+plt.xticks(np.arange(0, max(list_of_lengths_all)+1, 250))
 plt.xlabel("Number of characters in email")
 # show plot
-#plt.savefig("Comparison_length_types_emails.png")
-#print(list_of_words_of_spam)
-#print(list(set(list_of_words_of_spam)))
-#x = np.array(list_of_words_of_spam)
-#print(len(np.unique(x)))
+plt.savefig("insights_of_data/Comparison_length_types_emails.png")
+
 
 #print(len(list_of_words_of_spam))
 d = collections.defaultdict(int)
 for x in list_of_words_of_spam: d[x] += 1
 results = [x for x in list_of_words_of_spam if d[x] == 1]
+#print(results)
 print("Number of unique words in spam emails: " + str(len(results)))
 #print(len(list_of_words_of_no_spam))
 d = collections.defaultdict(int)
@@ -154,4 +140,20 @@ for x in list_of_all_words: d[x] += 1
 results = [x for x in list_of_all_words if d[x] == 1]
 print("Number of unique words across all emails: " + str(len(results)))
 
-#print(len([x for x in list_of_words_of_spam if list_of_words_of_spam.count(x)==1]))
+
+
+
+
+c = Counter(list_of_words_of_spam)
+
+
+
+print("Most common words in spam emails (<word>,<number_ocurrences>): "+ str(c.most_common(20)))
+
+c = Counter(list_of_words_of_no_spam)
+
+
+
+print("Most common words in non spam emails (<word>,<number_ocurrences>): "+ str(c.most_common(20)))
+
+
