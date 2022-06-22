@@ -1,4 +1,5 @@
 import pandas as pd
+from matplotlib import pyplot as plt
 
 
 list_of_lengths_all = []
@@ -41,10 +42,13 @@ for index, row in data_frame_for_no_spam.iterrows():
     list_of_lenghts_of_no_spam_mail.append(len(text))
 
 list_of_all_words = list_of_words_of_spam + list_of_words_of_no_spam
-print(list_of_words_of_spam)
-print(list_of_words_of_no_spam)
+#print(list_of_words_of_spam)
+#print(list_of_words_of_no_spam)
 
     #print(words_in_text)
 
-print(list_of_lengths_of_spam_mail)
-print(list_of_lenghts_of_no_spam_mail)
+#print(list_of_lengths_of_spam_mail)
+#print(list_of_lenghts_of_no_spam_mail)
+
+plt.plot(list_of_lengths_of_spam_mail)
+plt.show()
