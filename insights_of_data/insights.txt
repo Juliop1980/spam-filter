@@ -1,0 +1,3 @@
+Number of unique words in spam emails: 9370
+Number of unique words in non spam emails: 9012
+Number of unique words across all emails: 15053

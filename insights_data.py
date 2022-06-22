@@ -5,6 +5,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
+import collections
 #plt.use('TkAgg')
 
 
@@ -27,7 +28,8 @@ list_of_words_of_no_spam= []
 for index, row in data_frame_for_spam.iterrows():
     #print(row)
     text = row['text']
-    list_of_words_of_spam.append(text.split(" "))
+    list_of_words_of_spam+=text.split(" ")
+    
     
     #print(text)
     #print("-------------------------------------------------------------------------------")
@@ -41,7 +43,7 @@ for index, row in data_frame_for_spam.iterrows():
 for index, row in data_frame_for_no_spam.iterrows():
     #print(row)
     text = row['text']
-    list_of_words_of_no_spam.append(text.split(" "))
+    list_of_words_of_no_spam+=text.split(" ")
     
     #print(text)
     #print("-------------------------------------------------------------------------------")
@@ -131,5 +133,25 @@ ax.get_yaxis().tick_left()
 plt.xticks(np.arange(0, max(list_of_lengths_all)+1, 3000))
 plt.xlabel("Number of characters in email")
 # show plot
-plt.savefig("Comparison_length_types_emails.png")
+#plt.savefig("Comparison_length_types_emails.png")
+#print(list_of_words_of_spam)
+#print(list(set(list_of_words_of_spam)))
+#x = np.array(list_of_words_of_spam)
+#print(len(np.unique(x)))
 
+#print(len(list_of_words_of_spam))
+d = collections.defaultdict(int)
+for x in list_of_words_of_spam: d[x] += 1
+results = [x for x in list_of_words_of_spam if d[x] == 1]
+print("Number of unique words in spam emails: " + str(len(results)))
+#print(len(list_of_words_of_no_spam))
+d = collections.defaultdict(int)
+for x in list_of_words_of_no_spam: d[x] += 1
+results = [x for x in list_of_words_of_no_spam if d[x] == 1]
+print("Number of unique words in non spam emails: " + str(len(results)))
+d = collections.defaultdict(int)
+for x in list_of_all_words: d[x] += 1
+results = [x for x in list_of_all_words if d[x] == 1]
+print("Number of unique words across all emails: " + str(len(results)))
+
+#print(len([x for x in list_of_words_of_spam if list_of_words_of_spam.count(x)==1]))
