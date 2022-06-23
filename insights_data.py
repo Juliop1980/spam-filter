@@ -35,7 +35,7 @@ for index, row in data_frame_for_spam.iterrows():
     #print(row)
     text = row['text'].lower()
     #aux_text_no_thrash =  text.split(" ")
-    aux_text_no_thrash = [i for i in text.split(" ") if i not in (["Subject:","'",'"',"_","/","-",""]+stopwords.words('english')+split(string.punctuation))]
+    aux_text_no_thrash = [i for i in text.split(" ") if i not in (["subject:","subject","'",'"',"_","/","-",""]+stopwords.words('english')+split(string.punctuation))]
     list_of_words_of_spam+=aux_text_no_thrash
     
     
@@ -49,7 +49,7 @@ for index, row in data_frame_for_no_spam.iterrows():
     text = row['text'].lower()
     #print(" Im here")
     #aux_text_no_thrash =  text.split(" ")
-    aux_text_no_thrash = [i for i in text.split(" ") if i not in (["Subject:","'",'"',"_","/","-",""]+stopwords.words('english')+split(string.punctuation))]
+    aux_text_no_thrash = [i for i in text.split(" ") if i not in (["subject:","subject","'",'"',"_","/","-",""]+stopwords.words('english')+split(string.punctuation))]
 
     #list_of_words_of_spam+=aux_text_no_thrash
     list_of_words_of_no_spam+=aux_text_no_thrash
