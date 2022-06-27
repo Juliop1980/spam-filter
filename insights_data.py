@@ -43,7 +43,7 @@ for index, row in data_frame_for_spam.iterrows():
 
     # print(text)
     # print("-------------------------------------------------------------------------------")
-    list_of_lengths_of_no_spam_mail.append(len(aux_text_no_trash))
+    list_of_lengths_of_spam_mail.append(len(aux_text_no_trash))
 
 for index, row in data_frame_for_no_spam.iterrows():
     # print(row)
@@ -73,6 +73,7 @@ list_of_lengths_all = list_of_lengths_of_spam_mail + list_of_lengths_of_no_spam_
 
 data_1 = list_of_lengths_of_spam_mail
 data_2 = list_of_lengths_of_no_spam_mail
+#print(data_1)
 
 data = [data_1, data_2]
 
