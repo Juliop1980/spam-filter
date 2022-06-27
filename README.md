@@ -108,7 +108,7 @@ cd NLP_project1_4/
 _A requirements file was generated that will allow the automatic installation of the modules with_
 
 ```
-pip install -r requirements.txt
+sudo pip install -r requirements.txt
 ```
 
 ## Run and coding ⌨️
