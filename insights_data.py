@@ -8,8 +8,18 @@ from num2words import num2words
 
 from nltk.corpus import stopwords
 from collections import Counter
+nltk.download('wordnet')
+nltk.download('omw-1.4')
 
 nltk.download('stopwords')
+from nltk.stem import WordNetLemmatizer 
+
+
+
+# Init the Wordnet Lemmatizer
+lemmatizer = WordNetLemmatizer()
+
+
 
 
 def split(word):
@@ -35,8 +45,8 @@ for index, row in data_frame_for_spam.iterrows():
     # print(row)
     text = row['text'].lower()
     # aux_text_no_thrash =  text.split(" ")
-    aux_text_no_trash = [i for i in text.split(" ") if i not in (
-            ["subject:", "subject", "'", '"', "_", "/", "-", ""] + stopwords.words('english') + split(
+    aux_text_no_trash = [lemmatizer.lemmatize(i) for i in text.split(" ") if i not in (
+            ["subject:", "subject", "'", '"', "_", "/", "-", ""," "] + stopwords.words('english') + split(
                 string.punctuation)) and not i.isdigit()]
     numbers_as_words = [num2words(i) for i in text.split(" ") if i.isdigit()]
     list_of_words_of_spam += (aux_text_no_trash + numbers_as_words)
@@ -50,8 +60,8 @@ for index, row in data_frame_for_no_spam.iterrows():
     text = row['text'].lower()
     # print(" Im here")
     # aux_text_no_thrash =  text.split(" ")
-    aux_text_no_trash = [i for i in text.split(" ") if i not in (
-            ["subject:", "subject", "'", '"', "_", "/", "-", ""] + stopwords.words('english') + split(
+    aux_text_no_trash = [lemmatizer.lemmatize(i) for i in text.split(" ") if i not in (
+            ["subject:", "subject", "'", '"', "_", "/", "-", ""," "] + stopwords.words('english') + split(
                 string.punctuation)) and not i.isdigit()]
     numbers_as_words = [num2words(i) for i in text.split(" ") if i.isdigit()]
 
