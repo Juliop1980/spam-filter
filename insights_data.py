@@ -4,22 +4,22 @@ import numpy as np
 import collections
 import nltk
 import string
+import csv
+import spacy
 from num2words import num2words
-
 from nltk.corpus import stopwords
 from collections import Counter
+from spacy.lang.en import English
+
 nltk.download('wordnet')
 nltk.download('omw-1.4')
-
 nltk.download('stopwords')
-from nltk.stem import WordNetLemmatizer 
 
+nlp = English()
+# nlp = spacy.load("en_core_web_sm")
+# nlp = spacy.load("en_core_web_sm", exclude=["tok2vec", "parser", "ner", "attrbute_ruler"])
 
-
-# Init the Wordnet Lemmatizer
-lemmatizer = WordNetLemmatizer()
-
-
+writer = csv.writer(open("lemmatized_sentences.csv", "w"))
 
 
 def split(word):
@@ -32,45 +32,46 @@ data_set_frame = pd.read_csv('Spam_Emails/Spam_Emails.csv', quotechar='"')
 
 data_frame_for_spam = data_set_frame.query("spam == 1")
 data_frame_for_no_spam = data_set_frame.query("spam == 0")
-# first_row = data_frame_for_no_spam.head(1)
 
-# print("First row Of Dataframe: ")
-# print(first_row)
-
-# list_of_all_words=[]
 list_of_words_of_spam = []
 list_of_words_of_no_spam = []
-# data_set_frame= data_set_frame.reset_index()
+
 for index, row in data_frame_for_spam.iterrows():
-    # print(row)
     text = row['text'].lower()
-    # aux_text_no_thrash =  text.split(" ")
-    aux_text_no_trash = [lemmatizer.lemmatize(i) for i in text.split(" ") if i not in (
-            ["subject:", "subject", "'", '"', "_", "/", "-", ""," "] + stopwords.words('english') + split(
+
+    aux_text_no_trash = [i for i in text.split(" ") if i not in (
+            ["subject:", "subject", "'", '"', "_", "/", "-", "", " "] + stopwords.words('english') + split(
                 string.punctuation)) and not i.isdigit()]
     numbers_as_words = [num2words(i) for i in text.split(" ") if i.isdigit()]
-    list_of_words_of_spam += (aux_text_no_trash + numbers_as_words)
 
-    # print(text)
-    # print("-------------------------------------------------------------------------------")
+    doc = nlp(" ".join(aux_text_no_trash))
+    tokens = []
+    for token in doc:
+        tokens.append(token.lemma_)
+    print(tokens)
+    lemmatized_sentence = " ".join(tokens)
+    print(lemmatized_sentence)
+    writer.writerow(lemmatized_sentence)
+
+    list_of_words_of_spam += (aux_text_no_trash + numbers_as_words)
     list_of_lengths_of_spam_mail.append(len(aux_text_no_trash))
 
 for index, row in data_frame_for_no_spam.iterrows():
-    # print(row)
     text = row['text'].lower()
-    # print(" Im here")
-    # aux_text_no_thrash =  text.split(" ")
-    aux_text_no_trash = [lemmatizer.lemmatize(i) for i in text.split(" ") if i not in (
-            ["subject:", "subject", "'", '"', "_", "/", "-", ""," "] + stopwords.words('english') + split(
+    aux_text_no_trash = [i for i in text.split(" ") if i not in (
+            ["subject:", "subject", "'", '"', "_", "/", "-", "", " "] + stopwords.words('english') + split(
                 string.punctuation)) and not i.isdigit()]
     numbers_as_words = [num2words(i) for i in text.split(" ") if i.isdigit()]
+    doc = nlp(" ".join(aux_text_no_trash))
+    tokens = []
+    for token in doc:
+        tokens.append(token.lemma_)
+    print(tokens)
+    lemmatized_sentence = " ".join(tokens)
+    print(lemmatized_sentence)
+    writer.writerow(lemmatized_sentence)
 
-    # list_of_words_of_spam+=aux_text_no_thrash
     list_of_words_of_no_spam += (aux_text_no_trash + numbers_as_words)
-
-
-    # print(text)
-    # print("-------------------------------------------------------------------------------")
     list_of_lengths_of_no_spam_mail.append(len(aux_text_no_trash))
 
 # print("past the loop Im here")
@@ -83,7 +84,7 @@ list_of_lengths_all = list_of_lengths_of_spam_mail + list_of_lengths_of_no_spam_
 
 data_1 = list_of_lengths_of_spam_mail
 data_2 = list_of_lengths_of_no_spam_mail
-#print(data_1)
+# print(data_1)
 
 data = [data_1, data_2]
 
