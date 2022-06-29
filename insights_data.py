@@ -4,12 +4,9 @@ import numpy as np
 import collections
 import nltk
 import string
-import csv
-import spacy
 from num2words import num2words
 from nltk.corpus import stopwords
 from collections import Counter
-from spacy.lang.en import English
 
 from nltk.stem import WordNetLemmatizer 
 
@@ -22,20 +19,6 @@ lemmatizer = WordNetLemmatizer()
 nltk.download('wordnet')
 nltk.download('omw-1.4')
 nltk.download('stopwords')
-
-#nlp = English()
-#nlp = spacy.load("en_core_web_sm")
-# nlp = spacy.load("en_core_web_sm", exclude=["tok2vec", "parser", "ner", "attrbute_ruler"])
-
-#writer = csv.writer(open("lemmatized_sentences.csv", "w"))
-#load_model = spacy.load('en', disable = ['parser','ner'])
-#My_text = "is"
-#print(" ".join([token.lemma_ for token in nlp(My_text)]))
-#doc = nlp(My_text)
-#print("-------------------------------------------------------")
-#rint(doc)
-#print(" ".join([token.lemma_ for token in doc]))
-#print("-------------------------------------------------------")
 
 
 def split(word):
