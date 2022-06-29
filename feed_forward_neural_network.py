@@ -9,6 +9,8 @@ from keras.models import Sequential
 from keras.backend import clear_session
 from keras.layers import Dense, Softmax, Dropout
 import matplotlib.pyplot as plt
+from sklearn.feature_extraction.text import TfidfVectorizer,TfidfTransformer
+import sys
 
 
 plt.style.use('ggplot')
@@ -24,6 +26,8 @@ plt.style.use('ggplot')
 
 #For jupyter notebook uncomment next line
 #%matplotlib inline
+
+
 
 def plot_history(history):
     acc = history.history['accuracy']
@@ -47,6 +51,11 @@ def plot_history(history):
 # read csv input data
 df = pd.read_csv('preprocessed_data.csv')
 #print(df)
+
+#vectorizer= TfidfVectorizer()
+#tfidf_vect = vectorizer.fit_transform(df)
+#tfidf_vect_df = pd.DataFrame(tfidf_vect.toarray(), index = df.index, columns=df.columns)
+#print(tfidf_vect_df)
 
 # Drop first column of dataframe
 df = df.iloc[: , 1:]
@@ -83,36 +92,48 @@ y= df['spam'].values
 
 emails_train, emails_test, y_train, y_test = train_test_split(emails_list, y, test_size=0.2, random_state=1000)
 vectorizer = CountVectorizer()
-vectorizer.fit(emails_train)
-X_train = vectorizer.transform(emails_train)
-X_test  = vectorizer.transform(emails_test)
-#print(X_train)
+word_count_vector =vectorizer.fit(emails_train)
 
-#classifier = LogisticRegression()
-#classifier.fit(X_train, y_train)
-#score = classifier.score(X_test, y_test)
-#print("Accuracy:", score)
+try:
+    vectorization = sys.argv[1]
+except:
+    vectorization = ""
 
-input_dim = X_train.shape[1]  # Number of features
-model = Sequential()
-model.add(layers.Dense(10, input_dim=input_dim, activation='relu'))
-model.add(layers.Dense(1, activation='sigmoid'))
-#model.add(Dropout(0.2))
+if vectorization =="count":
+    X_train = vectorizer.transform(emails_train)
+    X_test  = vectorizer.transform(emails_test)
+    #print(X_train)
 
-model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
-#print(model.summary())
+    #classifier = LogisticRegression()
+    #classifier.fit(X_train, y_train)
+    #score = classifier.score(X_test, y_test)
+    #print("Accuracy:", score)
 
-history = model.fit(X_train, y_train, epochs=80,verbose=False,validation_data=(X_test, y_test),batch_size=100)
+    input_dim = X_train.shape[1]  # Number of features
+    model = Sequential()
+    model.add(layers.Dense(10, input_dim=input_dim, activation='relu'))
+    model.add(layers.Dense(1, activation='sigmoid'))
+    #model.add(Dropout(0.2))
 
-clear_session()
+    model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+    #print(model.summary())
 
-loss, accuracy = model.evaluate(X_train, y_train, verbose=False)
+    history = model.fit(X_train, y_train, epochs=80,verbose=False,validation_data=(X_test, y_test),batch_size=100)
 
-print("Training Accuracy: {:.4f}".format(accuracy))
+    clear_session()
 
-loss, accuracy = model.evaluate(X_test, y_test, verbose=False)
+    loss, accuracy = model.evaluate(X_train, y_train, verbose=False)
 
-print("Testing Accuracy:  {:.4f}".format(accuracy))
+    print("Training Accuracy: {:.4f}".format(accuracy))
 
-plot_history(history)
-plt.savefig('Neural_Network_results/NNmodel_count_vectorizerresults_.png')
+    loss, accuracy = model.evaluate(X_test, y_test, verbose=False)
+
+    print("Testing Accuracy:  {:.4f}".format(accuracy))
+
+    plot_history(history)
+    plt.savefig('Neural_Network_results/NNmodel_count_vectorizerresults_.png')
+
+tfidf_transformer=TfidfTransformer(smooth_idf=True,use_idf=True) 
+print(tfidf_transformer.fit(word_count_vector))
+
+
