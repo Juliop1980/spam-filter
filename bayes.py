@@ -1,41 +1,65 @@
 import pandas as pd
-import sklearn
-import csv
+
 from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import MultinomialNB
+from sklearn.metrics import accuracy_score
+from sklearn.preprocessing import StandardScaler
 
-# in order and same size.
-# X mails, Y labels for the training set
-X = []
-Y = []
+# read csv input data
+df = pd.read_csv('preprocessed_data.csv')
 
+# Drop first column of dataframe
+df = df.iloc[:, 1:]
+dataTypeDict = dict(df.dtypes)
 
-def fill_arrays(file_name):
-    with open(file_name, newline='') as f:
-        reader = csv.reader(f)
-        next(reader)
-        for row in reader:
-            X.append(row[1])
-            Y.append(row[2])
-
-
-fill_arrays("preprocessed_data.csv")
+X = df.iloc[:, 0].values
+Y = df.iloc[:, 1].values
 # print(X)
 # print(Y)
-# useful or not ?
-training_set = pd.DataFrame({'X': X, 'Y': Y})
+df["spam"] = df["spam"].astype('category').cat.codes
+
+X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2, random_state=0)
+"""print(X_train)
+print(Y_train)
+print(X_test)
+print(Y_test)
+train, test = train_test_split(df, test_size=0.2)
+X_train = train.iloc[:, 0]
+
+Y_train = train.iloc[:, 1]
+# print(X)
+# print(Y)
+X_test = test.iloc[:, 0]
+Y_test = test.iloc[:, 1]
+"""
+
+# scaling input data
+sc_X = StandardScaler()
+# X_train = sc_X.fit_transform(X_train)
+# X_test = sc_X.fit_transform(X_test)
+
+training_set = pd.DataFrame({'X': X_train, 'Y': Y_train})
 
 vectorizer = CountVectorizer()
-counts = vectorizer.fit_transform(training_set['X'].values)
-# print(counts)
+count_vectorizer = vectorizer.fit_transform(training_set['X'].values)
 
+bigram_vectorizer = TfidfVectorizer(ngram_range=(2, 2))
+count_tfidf = bigram_vectorizer.fit_transform(training_set['X'].values)
+
+# init Multinomial naive bayes
 classifier = MultinomialNB()
-targets = training_set['Y'].values
-classifier.fit(counts, targets)
 
-"""examples = ['Free Viagra now!!!', "Hi Bob, how about a game of golf tomorrow?"]
-example_counts = vectorizer.transform(examples)
-predictions = classifier.predict(example_counts)
-print(predictions)"""
+# training the model
+classifier.fit(count_vectorizer, Y_train)
+
+test_counts = vectorizer.transform(X_test)
+predictions = classifier.predict(test_counts)
+# print(predictions)
+# testing the model
 
 
+
+accuracy_count_vect = accuracy_score(Y_test, predictions)
+print(accuracy_count_vect)
