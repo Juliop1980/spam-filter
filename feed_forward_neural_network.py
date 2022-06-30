@@ -91,8 +91,10 @@ emails_list = df['text'].values
 y= df['spam'].values
 
 emails_train, emails_test, y_train, y_test = train_test_split(emails_list, y, test_size=0.2, random_state=1000)
+#print(emails_train)
 vectorizer = CountVectorizer()
 word_count_vector =vectorizer.fit(emails_train)
+#print(vectorizer.fit(emails_train))
 
 try:
     vectorization = sys.argv[1]
@@ -133,7 +135,12 @@ if vectorization =="count":
     plot_history(history)
     plt.savefig('Neural_Network_results/NNmodel_count_vectorizerresults_.png')
 
-tfidf_transformer=TfidfTransformer(smooth_idf=True,use_idf=True) 
-print(tfidf_transformer.fit(word_count_vector))
+#print(word_count_vector)
+#tfidf_transformer=TfidfTransformer(smooth_idf=True,use_idf=True) 
+#print(tfidf_transformer.fit(word_count_vector))
+#corpus = ['Text processing is necessary.', 'Text processing is necessary and important.', 'Text processing is easy.']
+vectorizer = TfidfVectorizer()
+X = vectorizer.fit_transform(emails_train)
+
 
 
