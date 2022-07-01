@@ -41,7 +41,7 @@ model.train(sentences, total_examples=model.corpus_count, epochs=model.epochs)  
 
 print("Most similar words for every random word")
 for i in random_words:
-        print("Most similar word for: " + i +": ")
+        print("Most similar word for " + i +": ")
         #vector = model.wv[j]  # get numpy vector of a word
         #sims = model.wv.most_similar(j, topn=10)  # get other similar words
         print(model.wv.most_similar(i))
