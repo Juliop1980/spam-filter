@@ -13,6 +13,10 @@ Nowadays all bid email service providers use NLP to automatically detect spam em
 
 Currently, the Scripts contained in this folder allow to:
 
+- Preprocess the email texts and get insights of the data.
+- Train a neural network to detect spam emails based on different vectorization models
+- Train a model by vectorizing words and finding the most similar words of 20 random chosen ones.
+
 
 Note:
 The instructions are written for Linux, specifically Ubuntu 20.04.4 LTS 
@@ -115,7 +119,19 @@ sudo pip install -r requirements.txt
 
 ### Structure of the code
 
-The file "insights_data" generates a file called insights_of_data with a summary of the data
+_The features are divided into three different scripts which follow this order by logic: 1st  **insights_data.py**, 2nd **bayes.py**, 3rd **feed_forward_neural_network.py**, and 4rd **pmi.py**._
+
+_The first script preprocesses the data and provides some insights about the emails while the second and third scripts provide models to predict if an email is spam or not, by using different vectorization models._
+_The last script convert words into vectors and trains a model in order to later choose 20 random words of the data and find the most similar words for each one of them._
+_A filesystem is created automatically by the scripts in order to organize the results of the scripts and have a log of what is been done._
+
+#### insights_of_data
+_In this folder lay the box-plot made to compare the lenghts of spam emails and non spam emails along with a text file which provide some interesting meassurements such as the most common words and the number of appearances in each type of email._
+
+
+#### Neural_Netowork_results
+_In this folder lay all the results of the neural network model based on accuracy and f1-score for each of the vectorization model used._
+_There is a png file for each vectorization model that shows the progress of the training done and a text file with the name of the model which shows the f1 score and accuracy._
 
 
 ### Important commands
@@ -127,9 +143,16 @@ They take around 5 minutes each.
 ```
 python insights_data.py
 ```
+```
+python bayes.py
+```
 
 ```
  python feed_forward_neural_network.py <vectorization_type>
+```
+
+```
+python pmi.py
 ```
 
 ### Available vectorization types
