@@ -122,11 +122,23 @@ The file "insights_data" generates a file called insights_of_data with a summary
 
 _to run the scripts_
 
+They take around 5 minutes each.
+
 ```
 python insights_data.py
 ```
 
+```
+ python feed_forward_neural_network.py <vectorization_type>
+```
 
+### Available vectorization types
+
+Count_Vectorizer = "count"
+TF-IDF = "TF-IDF"
+2-gram = "2-gram"
+3-gram = "3-gram"
+4-gram = "4-gram"
 
 ## Authors
 
