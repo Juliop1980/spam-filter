@@ -1,0 +1,4 @@
+Training Accuracy: 1.0000
+Training F1-Score: 1.0000
+Testing Accuracy:  0.9904
+Testing F1-Score: 0.9792
