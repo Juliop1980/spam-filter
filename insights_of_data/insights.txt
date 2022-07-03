@@ -1,5 +1,7 @@
-Number of unique words in spam emails: 8691
-Number of unique words in non spam emails: 8377
-Number of unique words across all emails: 14083
-Most common words in spam emails (<word>,<number_occurrences>): [('one', 1613), ('zero', 1449), ('company', 1065), ('com', 998), ('business', 891), ('email', 858), ('five', 788), ('two', 771), ('three', 753), ('information', 748), ('e', 738), ('u', 729), ('money', 662), ('mail', 651), ('get', 612), ('free', 606), ('http', 603), ('time', 581), ('please', 581), ('click', 533)]
-Most common words in non spam emails (<word>,<number_occurrences>): [('enron', 13382), ('ect', 11417), ('vince', 8531), ('one', 5737), ('hou', 5569), ('two thousand', 4935), ('kaminski', 4770), ('com', 4444), ('two', 4389), ('please', 4386), ('would', 4151), ('cc', 3889), ('j', 3694), ('zero', 3587), ('three', 3368), ('pm', 3262), ('two thousand and one', 3060), ('four', 2906), ('research', 2676), ('thanks', 2523)]
+number of spam emails in data : 1368
+number of non spam emails in data : 4360
+Number of unique words in spam emails: 8693
+Number of unique words in non spam emails: 8376
+Number of unique words across all emails: 14081
+Most common words in spam emails (<word>,<number_occurrences>): [('one', 1613), ('zero', 1449), ('company', 1065), ('com', 998), ('business', 891), ('email', 858), ('five', 788), ('two', 771), ('three', 753), ('information', 748), ('money', 662), ('mail', 651), ('get', 612), ('free', 606), ('http', 603), ('time', 581), ('please', 581), ('u', 537), ('click', 533), ('make', 527)]
+Most common words in non spam emails (<word>,<number_occurrences>): [('enron', 13382), ('ect', 11417), ('vince', 8531), ('one', 5737), ('hou', 5569), ('two thousand', 4935), ('kaminski', 4770), ('com', 4444), ('two', 4389), ('please', 4386), ('would', 4151), ('cc', 3889), ('zero', 3587), ('three', 3368), ('pm', 3262), ('two thousand and one', 3060), ('four', 2906), ('research', 2676), ('thanks', 2523), ('time', 2466)]
