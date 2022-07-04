@@ -20,39 +20,40 @@ nltk.download('wordnet')
 nltk.download('omw-1.4')
 nltk.download('stopwords')
 
-
+#function to split the characters of a word to split the punctuation string given by string.punctuation
 def split(word):
     return [char for char in word]
 
 
 list_of_lengths_of_spam_mail = []
 list_of_lengths_of_no_spam_mail = []
-data_set_frame = pd.read_csv('Spam_Emails/Spam_Emails.csv', quotechar='"')
 
-#data_frame_for_spam = data_set_frame.query("spam == 1")
-#data_frame_for_no_spam = data_set_frame.query("spam == 0")
+data_set_frame = pd.read_csv('Spam_Emails/Spam_Emails.csv', quotechar='"')
 
 list_of_words_of_spam = []
 list_of_words_of_no_spam = []
 
-def preprocess_and_store(df_line):
+#function that gets every row from the dataframe and preprocess it
+def preprocess(df_line):
+    # This are global variables that we will use to get the insights of the data later and we take advantage of this function to do it while preprocessing
     global list_of_lengths_of_spam_mail
     global list_of_lengths_of_no_spam_mail
     global list_of_words_of_spam
     global list_of_words_of_no_spam
 
+    # This variable will take the splitted cleaned text of every row
     aux_text_no_trash = []
     for i in (df_line['text'].lower()).split(" "):
-        #print(i)
-        if i not in ( ["subject:", "subject", "'", '"', "_", "/", "-", "", " "] + stopwords.words('english') + split(string.punctuation)) and not i.isdigit():
-            #print(lemmatizer.lemmatize(i))
+
+        if i not in ( ["subject:", "subject", "'", '"', "_", "/", "-", "", " "] + stopwords.words('english') + split(string.punctuation)) and not i.isdigit() and len(i)>1:
+            # We finally lemmatize the word
+
             aux_text_no_trash.append(lemmatizer.lemmatize(i))
-            #print(aux_text_no_trash)
-        
+
         if i.isdigit():
             aux_text_no_trash.append(num2words(i))
     
-    
+    # Depending on the status of the spam field we add our meassurements and word to the correct list
     if df_line['spam'] == 1:
         list_of_words_of_spam += aux_text_no_trash
         list_of_lengths_of_spam_mail.append(len(aux_text_no_trash))
@@ -64,31 +65,19 @@ def preprocess_and_store(df_line):
 
     return " ".join(aux_text_no_trash)
 
-            #print()
 
-        #aux_text_no_trash = [lemmatizer.lemmatize(i) for i in text.split(" ") if i not in ( ["subject:", "subject", "'", '"', "_", "/", "-", "", " "] + stopwords.words('english') + split(string.punctuation)) and not i.isdigit()]
+# We call the function to preprocess the data and 
+data_set_frame['text'] = data_set_frame.apply(preprocess, axis=1)
 
-    
-
-data_set_frame['text'] = data_set_frame.apply(preprocess_and_store, axis=1)
-
-#print(data_set_frame)
-
-
-# print("past the loop Im here")
+# we then add all the words and lengths to have an overall view of the data
 list_of_all_words = list_of_words_of_spam + list_of_words_of_no_spam
 
 list_of_lengths_all = list_of_lengths_of_spam_mail + list_of_lengths_of_no_spam_mail
 
-# Creating dataset
-# print("Im here")
+#We prepare the data for plotting
+data = [list_of_lengths_of_spam_mail, list_of_lengths_of_no_spam_mail]
 
-data_1 = list_of_lengths_of_spam_mail
-data_2 = list_of_lengths_of_no_spam_mail
-# print(data_1)
-
-data = [data_1, data_2]
-
+# Making a box plot to show the distribution of lengths
 fig = plt.figure(figsize=(10, 7))
 ax = fig.add_subplot(111)
 
@@ -138,20 +127,28 @@ ax.get_xaxis().tick_bottom()
 ax.get_yaxis().tick_left()
 plt.xticks(np.arange(0, max(list_of_lengths_all) + 1, 250))
 plt.xlabel("Number of words in email")
-# show plot
-plt.savefig("insights_of_data/Comparison_length_types_emails.png")
 
-# print(len(list_of_words_of_spam))
+# Uncomment next line if you want to save the plot
+#plt.savefig("insights_of_data/Comparison_length_types_emails.png")
+
+#Get number of normal emails and number of non spam emails
+print("number of spam emails in data : "+ str(data_set_frame['spam'].value_counts()[1]))
+print("number of non spam emails in data : "+ str(data_set_frame['spam'].value_counts()[0]))
+
+
+# get unique words in both types of email
+
 d = collections.defaultdict(int)
 for x in list_of_words_of_spam: d[x] += 1
 results = [x for x in list_of_words_of_spam if d[x] == 1]
-# print(results)
 print("Number of unique words in spam emails: " + str(len(results)))
-# print(len(list_of_words_of_no_spam))
+
+
 d = collections.defaultdict(int)
 for x in list_of_words_of_no_spam: d[x] += 1
 results = [x for x in list_of_words_of_no_spam if d[x] == 1]
 print("Number of unique words in non spam emails: " + str(len(results)))
+
 d = collections.defaultdict(int)
 for x in list_of_all_words: d[x] += 1
 results = [x for x in list_of_all_words if d[x] == 1]
@@ -165,4 +162,6 @@ c = Counter(list_of_words_of_no_spam)
 
 print("Most common words in non spam emails (<word>,<number_occurrences>): " + str(c.most_common(20)))
 
-data_set_frame.to_csv('preprocessed_data.csv')
+
+#Uncomment next line if you want to save preprocessed data to a csv
+#data_set_frame.to_csv('preprocessed_data.csv')
