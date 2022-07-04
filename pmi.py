@@ -1,4 +1,3 @@
-from gensim.test.utils import common_texts
 from gensim.models import Word2Vec
 import random
 import gensim.downloader
@@ -14,7 +13,7 @@ glove_vectors = gensim.downloader.load('glove-wiki-gigaword-50')
 df = pd.read_csv('preprocessed_data.csv')
 
 emails_list = df['text'].tolist()
-#word_list_model = []
+# word_list_model = []
 word_list = [word for line in emails_list for word in line.split()]
 sentences = []
 
