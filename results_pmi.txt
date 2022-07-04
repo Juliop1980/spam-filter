@@ -20,7 +20,7 @@ Most similar word for apply:
 [('easily', 0.9512961506843567), ('completely', 0.9423893094062805), ('seen', 0.9396057724952698), ('obligation', 0.9394809603691101), ('acceptable', 0.9390333294868469), ('extent', 0.93896484375), ('therefore', 0.9377708435058594), ('initial', 0.9335087537765503), ('vague', 0.9307570457458496), ('require', 0.9306252002716064)]
 Most similar word for consult: 
 [('probationary', 0.8728035092353821), ('objection', 0.8690478801727295), ('treat', 0.8671056032180786), ('recall', 0.8647546172142029), ('remitted', 0.8613951802253723), ('decline', 0.8518891334533691), ('endeavour', 0.8512497544288635), ('separately', 0.8509277701377869), ('autocorrelation', 0.8504206538200378), ('carry', 0.8492192029953003)]
-Most similar word for two: 
+Most similar word for  : 
 [('sixteen', 0.8248804211616516), ('fourteen', 0.8208648562431335), ('seventeen', 0.8155697584152222), ('twenty-nine', 0.8138052225112915), ('one', 0.8122419118881226), ('thirty-eight', 0.8095065355300903), ('twenty-four', 0.8086708188056946), ('twenty-three', 0.799030601978302), ('twenty-eight', 0.7978780269622803), ('eighteen', 0.7883445024490356)]
 Most similar word for saying: 
 [('went', 0.9662331938743591), ('promised', 0.9549112915992737), ('crazy', 0.9545791745185852), ('handed', 0.9521197080612183), ('wonder', 0.9508197903633118), ('hopefully', 0.9503145813941956), ('plane', 0.9489269852638245), ('claimed', 0.9466721415519714), ('happened', 0.9460148811340332), ('succeed', 0.9455295205116272)]

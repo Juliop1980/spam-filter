@@ -27,7 +27,7 @@ def precision_m(y_true, y_pred):
 def f1_m(y_true, y_pred):
     precision = precision_m(y_true, y_pred)
     recall = recall_m(y_true, y_pred)
-    return 2*((precision*recall)/(precision+recall+K.epsilon()))
+    return 2 * ((precision * recall) / (precision + recall + K.epsilon()))
 
 
 plt.style.use('ggplot')
@@ -52,9 +52,9 @@ def plot_history(history):
     plt.title('Training and validation loss')
     plt.legend()
 
+
 # read csv input data
 df = pd.read_csv('preprocessed_data.csv')
-
 
 # Drop first column of dataframe
 df = df.iloc[:, 1:]
@@ -90,32 +90,32 @@ if vectorization == "TF-IDF":
     X_train = vectorizer.fit_transform(emails_train).toarray()
     X_test = vectorizer.transform(emails_test).toarray()
 
-if vectorization =="2-gram":
-    vectorizer = CountVectorizer(ngram_range = (2, 2))
+if vectorization == "2-gram":
+    vectorizer = CountVectorizer(ngram_range=(2, 2))
     word_count_vector = vectorizer.fit(emails_train)
     X_train = vectorizer.transform(emails_train)
     X_test = vectorizer.transform(emails_test)
 
 if vectorization == "3-gram":
-    vectorizer = CountVectorizer(ngram_range = (3, 3))
+    vectorizer = CountVectorizer(ngram_range=(3, 3))
     word_count_vector = vectorizer.fit(emails_train)
     X_train = vectorizer.transform(emails_train)
     X_test = vectorizer.transform(emails_test)
 
-if vectorization =="4-gram":
-    vectorizer = CountVectorizer(ngram_range = (4,4))
-    word_count_vector =vectorizer.fit(emails_train)
+if vectorization == "4-gram":
+    vectorizer = CountVectorizer(ngram_range=(4, 4))
+    word_count_vector = vectorizer.fit(emails_train)
     X_train = vectorizer.transform(emails_train)
-    X_test  = vectorizer.transform(emails_test)
+    X_test = vectorizer.transform(emails_test)
 
 input_dim = X_train.shape[1]  # Number of features
 model = Sequential()
 model.add(layers.Dense(10, input_dim=input_dim, activation='relu'))
 model.add(layers.Dense(1, activation='sigmoid'))
 
-model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy',f1_m,precision_m, recall_m])
+model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy', f1_m, precision_m, recall_m])
 
-history = model.fit(X_train, y_train, epochs=80,verbose=False,validation_data=(X_test, y_test),batch_size=100)
+history = model.fit(X_train, y_train, epochs=80, verbose=False, validation_data=(X_test, y_test), batch_size=100)
 
 clear_session()
 
@@ -124,4 +124,3 @@ loss, accuracy, f1_score, precision, recall = model.evaluate(X_train, y_train, v
 print(model.get_config())
 
 loss, accuracy, f1_score, precision, recall = model.evaluate(X_test, y_test, verbose=False)
-
