@@ -30,14 +30,7 @@ print("-------------------------------------------------------------------------
 model = Word2Vec(window=3,min_count=1)
 model.build_vocab(sentences)
 model.train(sentences, total_examples=model.corpus_count, epochs=model.epochs)  # train word vectors
-#word_list_model.append(random_words)
-#print(word_list_model)
-#print(random.sample(word_list, 20))
-#model = Word2Vec(sentences=common_texts, vector_size=100, window=3, min_count=1, workers=4)
-#model.save("word2vec.model")
-#print(model)
-#model = Word2Vec.load("word2vec.model")
-#model.train([word_list_model], total_examples=1, epochs=1)
+
 
 print("Most similar words for every random word")
 for i in random_words:
