@@ -95,7 +95,7 @@ vectorizer = CountVectorizer(min_df=0, lowercase=False)
 #X = vectorizer.fit_transform(emails_list)
 vectorizer.fit(emails_list)
 #vectorizer.fit(sentences)
-vectorizer.vocabulary_
+#vectorizer.vocabulary_f
 #vectorizer.get_feature_names_out()
 #first_array = (X.toarray())[0]
 #print(vectorizer.transform(emails_list).toarray())
@@ -106,7 +106,7 @@ vectorizer.vocabulary_
 
 #print(train)
 emails_list = df['text'].values
-y= df['spam'].values
+y = df['spam'].values
 
 emails_train, emails_test, y_train, y_test = train_test_split(emails_list, y, test_size=0.2, random_state=1000)
 #print(emails_train)
@@ -117,7 +117,7 @@ try:
 except:
     vectorization = ""
 
-if vectorization =="count":
+if vectorization == "count":
     vectorizer = CountVectorizer()
     word_count_vector =vectorizer.fit(emails_train)
     X_train = vectorizer.transform(emails_train)
@@ -136,16 +136,16 @@ if vectorization == "TF-IDF":
     X_test = vectorizer.transform(emails_test).toarray()
 
 if vectorization =="2-gram":
-    vectorizer = CountVectorizer(ngram_range = (2,2))
-    word_count_vector =vectorizer.fit(emails_train)
+    vectorizer = CountVectorizer(ngram_range = (2, 2))
+    word_count_vector = vectorizer.fit(emails_train)
     X_train = vectorizer.transform(emails_train)
-    X_test  = vectorizer.transform(emails_test)
+    X_test = vectorizer.transform(emails_test)
 
-if vectorization =="3-gram":
-    vectorizer = CountVectorizer(ngram_range = (3,3))
-    word_count_vector =vectorizer.fit(emails_train)
+if vectorization == "3-gram":
+    vectorizer = CountVectorizer(ngram_range = (3, 3))
+    word_count_vector = vectorizer.fit(emails_train)
     X_train = vectorizer.transform(emails_train)
-    X_test  = vectorizer.transform(emails_test)
+    X_test = vectorizer.transform(emails_test)
 
 if vectorization =="4-gram":
     vectorizer = CountVectorizer(ngram_range = (4,4))
@@ -204,5 +204,5 @@ loss, accuracy, f1_score, precision, recall  = model.evaluate(X_test, y_test, ve
 #corpus = ['Text processing is necessary.', 'Text processing is necessary and important.', 'Text processing is easy.']
 
 
-
-
+print(model.summary())
+print(len(model.layers))
