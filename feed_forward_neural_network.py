@@ -66,27 +66,13 @@ train, test = train_test_split(df, test_size=0.2)
 
 emails_list = df['text'].tolist()
 
-
 vectorizer = CountVectorizer(min_df=0, lowercase=False)
-#X = vectorizer.fit_transform(emails_list)
+
 vectorizer.fit(emails_list)
-#vectorizer.fit(sentences)
-#vectorizer.vocabulary_f
-#vectorizer.get_feature_names_out()
-#first_array = (X.toarray())[0]
-#print(vectorizer.transform(emails_list).toarray())
-
-
-#print(vectorizer.vocabulary_)
-#print(vectorizer.transform(emails_list).toarray())
-
-#print(train)
 emails_list = df['text'].values
 y = df['spam'].values
 
 emails_train, emails_test, y_train, y_test = train_test_split(emails_list, y, test_size=0.2, random_state=1000)
-#print(emails_train)
-#print(vectorizer.fit(emails_train))
 
 try:
     vectorization = sys.argv[1]
@@ -95,20 +81,13 @@ except:
 
 if vectorization == "count":
     vectorizer = CountVectorizer()
-    word_count_vector =vectorizer.fit(emails_train)
+    word_count_vector = vectorizer.fit(emails_train)
     X_train = vectorizer.transform(emails_train)
-    X_test  = vectorizer.transform(emails_test)
-    #print(X_train)
-
-    #classifier = LogisticRegression()
-    #classifier.fit(X_train, y_train)
-    #score = classifier.score(X_test, y_test)
-    #print("Accuracy:", score)
+    X_test = vectorizer.transform(emails_test)
 
 if vectorization == "TF-IDF":
     vectorizer = TfidfVectorizer()
     X_train = vectorizer.fit_transform(emails_train).toarray()
-    #print(X_train)
     X_test = vectorizer.transform(emails_test).toarray()
 
 if vectorization =="2-gram":
@@ -133,13 +112,10 @@ input_dim = X_train.shape[1]  # Number of features
 model = Sequential()
 model.add(layers.Dense(10, input_dim=input_dim, activation='relu'))
 model.add(layers.Dense(1, activation='sigmoid'))
-#model.add(Dropout(0.2))
 
 model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy',f1_m,precision_m, recall_m])
-#print(model.summary())
 
 history = model.fit(X_train, y_train, epochs=80,verbose=False,validation_data=(X_test, y_test),batch_size=100)
-
 
 clear_session()
 
@@ -147,38 +123,5 @@ loss, accuracy, f1_score, precision, recall = model.evaluate(X_train, y_train, v
 
 print(model.get_config())
 
-#print("Training Accuracy: {:.4f}".format(accuracy))
-#print("Training F1-Score: {:.4f}".format(f1_score))
+loss, accuracy, f1_score, precision, recall = model.evaluate(X_test, y_test, verbose=False)
 
-loss, accuracy, f1_score, precision, recall  = model.evaluate(X_test, y_test, verbose=False)
-
-#print("Testing Accuracy:  {:.4f}".format(accuracy))
-#print("Testing F1-Score: {:.4f}".format(f1_score))
-
-# if vectorization =="count":
-#     plot_history(history)
-#     plt.savefig('Neural_Network_results/NNmodel_count_vectorizerresults.png')
-
-# if vectorization =="TF-IDF":
-#     plot_history(history)
-#     plt.savefig('Neural_Network_results/NNmodel_TF-IDF_results.png')
-
-# if vectorization =="2-gram":
-#     plot_history(history)
-#     plt.savefig('Neural_Network_results/NNmodel_2-gram_results.png')
-
-# if vectorization =="3-gram":
-#     plot_history(history)
-#     plt.savefig('Neural_Network_results/NNmodel_3-gram_results.png')
-
-# if vectorization =="4-gram":
-#     plot_history(history)
-#     plt.savefig('Neural_Network_results/NNmodel_4-gram_results.png')
-# #print(word_count_vector)
-#tfidf_transformer=TfidfTransformer(smooth_idf=True,use_idf=True) 
-#print(tfidf_transformer.fit(word_count_vector))
-
-
-
-print(model.summary())
-print(len(model.layers))
