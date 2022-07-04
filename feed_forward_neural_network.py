@@ -1,17 +1,14 @@
-#import tensorflow as tf
-#import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.linear_model import LogisticRegression
 from keras import layers
 from keras.models import Sequential
 from keras.backend import clear_session
-from keras.layers import Dense, Softmax, Dropout
 import matplotlib.pyplot as plt
-from sklearn.feature_extraction.text import TfidfVectorizer,TfidfTransformer
+from sklearn.feature_extraction.text import TfidfVectorizer
 import sys
 from keras import backend as K
+
 
 def recall_m(y_true, y_pred):
     true_positives = K.sum(K.round(K.clip(y_true * y_pred, 0, 1)))
@@ -19,11 +16,13 @@ def recall_m(y_true, y_pred):
     recall = true_positives / (possible_positives + K.epsilon())
     return recall
 
+
 def precision_m(y_true, y_pred):
     true_positives = K.sum(K.round(K.clip(y_true * y_pred, 0, 1)))
     predicted_positives = K.sum(K.round(K.clip(y_pred, 0, 1)))
     precision = true_positives / (predicted_positives + K.epsilon())
     return precision
+
 
 def f1_m(y_true, y_pred):
     precision = precision_m(y_true, y_pred)
@@ -32,8 +31,6 @@ def f1_m(y_true, y_pred):
 
 
 plt.style.use('ggplot')
-
-
 
 
 def plot_history(history):
@@ -57,23 +54,13 @@ def plot_history(history):
 
 # read csv input data
 df = pd.read_csv('preprocessed_data.csv')
-#print(df)
 
-#vectorizer= TfidfVectorizer()
-#tfidf_vect = vectorizer.fit_transform(df)
-#tfidf_vect_df = pd.DataFrame(tfidf_vect.toarray(), index = df.index, columns=df.columns)
-#print(tfidf_vect_df)
 
 # Drop first column of dataframe
-df = df.iloc[: , 1:]
-#print(df)
+df = df.iloc[:, 1:]
 dataTypeDict = dict(df.dtypes)
 
-#print(dataTypeDict)
-
-
-
-df["spam"]=df["spam"].astype('category').cat.codes
+df["spam"] = df["spam"].astype('category').cat.codes
 
 train, test = train_test_split(df, test_size=0.2)
 
