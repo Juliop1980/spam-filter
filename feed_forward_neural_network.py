@@ -32,18 +32,7 @@ def f1_m(y_true, y_pred):
 
 
 plt.style.use('ggplot')
-#from sklearn.preprocessing import MinMaxScaler
-#import matplotlib.pyplot as plt
-#from tensorflow import keras
-#from tensorflow.keras import Model
-#from plot_keras_history import show_history, plot_history
-#import matplotlib.pyplot as plt
-#import statistics
-#from numpy import sqrt 
-#from scipy.stats import sem
 
-#For jupyter notebook uncomment next line
-#%matplotlib inline
 
 
 
@@ -201,7 +190,7 @@ loss, accuracy, f1_score, precision, recall  = model.evaluate(X_test, y_test, ve
 # #print(word_count_vector)
 #tfidf_transformer=TfidfTransformer(smooth_idf=True,use_idf=True) 
 #print(tfidf_transformer.fit(word_count_vector))
-#corpus = ['Text processing is necessary.', 'Text processing is necessary and important.', 'Text processing is easy.']
+
 
 
 
